@@ -24,6 +24,7 @@ import routerBindings, {
 } from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import axios from "axios";
+import { MuiInferencer } from "@refinedev/inferencer/mui";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
@@ -49,7 +50,18 @@ import {
   StarOutlineRounded,
   VillaOutlined,
 } from '@mui/icons-material'
+import {
 
+  Home,
+  Agents,
+  MyProfile,
+  PropertyDetails,
+  AllProperties,
+  CreateProperty,
+  AgentProfile,
+  EditProperty
+
+} from './pages';
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
@@ -59,6 +71,7 @@ axiosInstance.interceptors.request.use((config) => {
 
   return config;
 });
+
 
 function App() {
   const authProvider: AuthBindings = {
@@ -151,35 +164,36 @@ function App() {
                 notificationProvider={useNotificationProvider}
                 routerProvider={routerBindings}
                 authProvider={authProvider}
+                DashboardPage={Home}   
                 resources={[
                   {
                     name: "Property",
-                    list: "MuiInferencer",
+                    list: MuiInferencer,
                     icon: <  VillaOutlined/>
       
                   },
                                  {
                     name: "Agent",
-                    list: "MuiInferencer",
+                    list: MuiInferencer,
                     icon: < PeopleAltOutlined /> 
       
                   },
                                  {
                     name: "Review",
-                    list: "MuiInferencer",
+                    list: MuiInferencer,
                     icon: < StarOutlineRounded /> 
       
                   },
                                  {
                     name: "Message",
-                    list: "MuiInferencer",
+                    list: MuiInferencer,
                     icon: <ChatBubbleOutline/>
       
                   },
                                  {
                     name: "My-profile",
                     options:{label:'My Profile'},
-                    list: "MuiInferencer",
+                    list: MuiInferencer,
                     icon: <AccountCircleOutlined/>
 
       
