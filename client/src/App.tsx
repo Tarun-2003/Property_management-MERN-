@@ -1,7 +1,7 @@
 import {
   AuthBindings,
   Authenticated,
-  GitHubBanner,
+
   Refine,
 } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
@@ -152,7 +152,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <GitHubBanner />
+
       <RefineKbarProvider>
         <ColorModeContextProvider>
           <CssBaseline />
@@ -231,7 +231,7 @@ function App() {
                   >
                     <Route
                       index
-                      element={<NavigateToResource resource="blog_posts" />}
+                      element={<Home />}
                     />
                     <Route path="/blog-posts">
                       <Route index element={<BlogPostList />} />
