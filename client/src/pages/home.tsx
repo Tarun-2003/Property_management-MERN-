@@ -14,7 +14,7 @@ const Home= ()=>{
                 title="Properties for sale"
                 value={684}
                 series={[75,25]}
-                colors={['#475be8','#e4e8ef']}
+                colors={['#475be8','#e4b8ef']}
 
                 
                 />
@@ -30,7 +30,7 @@ const Home= ()=>{
                 title="Total customers"
                 value={5684}
                 series={[75,25]}
-                colors={['#275be8','#c4e8ef']}
+                colors={['#275be8','#e4b8ef']}
 
                 
                 />
@@ -38,15 +38,18 @@ const Home= ()=>{
                 title="Total cities"
                 value={555}
                 series={[75,25]}
-                colors={['#475be8','#e4e8ef']}
+                colors={['#475be8','#e4b8ef']}
 
                 
                 />
-
             </Box>
+            <Stack mt="25px" width="100%" direction={{xs:"column", lg:"row"}} gap={4}>
+                <TotalRevenue/>
+                <PropertyReferrals/>
+
+
+            </Stack>
         </Box>
     )
 }
 export default Home
-
-

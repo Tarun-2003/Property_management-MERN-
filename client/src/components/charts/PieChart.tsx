@@ -5,11 +5,11 @@ import ReactApexChart from 'react-apexcharts';
 const PieChart = ({title, value,series,colors}:PieChartProps) => {
   return (  
 <Box
+
       id="chart"
-      flex="1 1 300px"
+      flex={1}
       display="flex"
-      maxWidth={320} 
-      bgcolor="#EEEEEE"
+      bgcolor="#E9E9E9"
       flexDirection="row"
       justifyContent="space-between"
       alignItems="center"
@@ -17,8 +17,9 @@ const PieChart = ({title, value,series,colors}:PieChartProps) => {
       py={2}
       gap={2}
       borderRadius="15px"
-      boxShadow="0 2px 10px rgba(0,0,0,0.06)" 
       minHeight="110px"
+      width="fit-content"
+
  
 
 >
