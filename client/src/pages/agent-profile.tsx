@@ -1,10 +1,10 @@
 import React from "react"
 
-const agentProfile= ()=>{
+const AgentProfile= ()=>{
     return (
         <div>Home</div>
     )
 }
-export default agentProfile
+export default AgentProfile
 
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const allProperties = () => {
+const AllProperties = () => {
   return (
     <div>
       allProperties
@@ -8,5 +8,5 @@ const allProperties = () => {
   )
 }
 
-export default allProperties
+export default AllProperties
 

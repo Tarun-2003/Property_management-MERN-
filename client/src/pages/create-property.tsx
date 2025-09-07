@@ -1,6 +1,6 @@
 import React from 'react'
 
-const createProperty = () => {
+const CreateProperty = () => {
   return (
     <div>
         create property
@@ -9,4 +9,4 @@ const createProperty = () => {
   )
 }
 
-export default createProperty
+export default CreateProperty

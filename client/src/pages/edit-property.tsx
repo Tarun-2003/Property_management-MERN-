@@ -1,6 +1,6 @@
 import React from 'react'
 
-const editProperty = () => {
+const EditProperty = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const editProperty = () => {
   )
 }
 
-export default editProperty
+export default EditProperty

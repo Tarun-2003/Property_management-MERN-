@@ -1,19 +1,16 @@
 import {
   AuthBindings,
   Authenticated,
-
   Refine,
 } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
-
 import {
   ErrorComponent,
   RefineSnackbarProvider,
   ThemedLayoutV2,
   useNotificationProvider,
 } from "@refinedev/mui";
-
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import routerBindings, {
@@ -24,7 +21,6 @@ import routerBindings, {
 } from "@refinedev/react-router";
 import dataProvider from "@refinedev/simple-rest";
 import axios from "axios";
-import { MuiInferencer } from "@refinedev/inferencer/mui";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
@@ -49,9 +45,9 @@ import {
   PeopleAltOutlined,
   StarOutlineRounded,
   VillaOutlined,
-} from '@mui/icons-material'
-import {
+} from "@mui/icons-material";
 
+import {
   Home,
   Agents,
   MyProfile,
@@ -59,19 +55,17 @@ import {
   AllProperties,
   CreateProperty,
   AgentProfile,
-  EditProperty
+  EditProperty,
+} from "./pages";
 
-} from './pages';
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (config.headers) {
     config.headers["Authorization"] = `Bearer ${token}`;
   }
-
   return config;
 });
-
 
 function App() {
   const authProvider: AuthBindings = {
@@ -145,14 +139,12 @@ function App() {
       if (user) {
         return JSON.parse(user);
       }
-
       return null;
     },
   };
 
   return (
     <BrowserRouter>
-
       <RefineKbarProvider>
         <ColorModeContextProvider>
           <CssBaseline />
@@ -164,39 +156,37 @@ function App() {
                 notificationProvider={useNotificationProvider}
                 routerProvider={routerBindings}
                 authProvider={authProvider}
-                DashboardPage={Home}   
+                DashboardPage={Home}
                 resources={[
                   {
-                    name: "Property",
-                    list: MuiInferencer,
-                    icon: <  VillaOutlined/>
-      
+                    name: "properties",
+                    list: AllProperties,
+                    show: PropertyDetails,
+                    create: CreateProperty,
+                    edit: EditProperty,
+                    icon: <VillaOutlined />,
                   },
-                                 {
-                    name: "Agent",
-                    list: MuiInferencer,
-                    icon: < PeopleAltOutlined /> 
-      
+                  {
+                    name: "agents",
+                    list: Agents,
+                    show: AgentProfile,
+                    icon: <PeopleAltOutlined />,
                   },
-                                 {
-                    name: "Review",
-                    list: MuiInferencer,
-                    icon: < StarOutlineRounded /> 
-      
+                  {
+                    name: "reviews",
+                    list: Home,
+                    icon: <StarOutlineRounded />,
                   },
-                                 {
-                    name: "Message",
-                    list: MuiInferencer,
-                    icon: <ChatBubbleOutline/>
-      
+                  {
+                    name: "messages",
+                    list: Home,
+                    icon: <ChatBubbleOutline />,
                   },
-                                 {
-                    name: "My-profile",
-                    options:{label:'My Profile'},
-                    list: MuiInferencer,
-                    icon: <AccountCircleOutlined/>
-
-      
+                  {
+                    name: "my-profile",
+                    options: { label: "My Profile" },
+                    list: MyProfile,
+                    icon: <AccountCircleOutlined />,
                   },
                   {
                     name: "categories",
@@ -204,9 +194,7 @@ function App() {
                     create: "/categories/create",
                     edit: "/categories/edit/:id",
                     show: "/categories/show/:id",
-                    meta: {
-                      canDelete: true,
-                    },
+                    meta: { canDelete: true },
                   },
                 ]}
                 options={{
@@ -229,24 +217,52 @@ function App() {
                       </Authenticated>
                     }
                   >
-                    <Route
-                      index
-                      element={<Home />}
-                    />
+                    {/* Dashboard */}
+                    <Route index element={<Home />} />
+
+                    {/* Blog posts */}
                     <Route path="/blog-posts">
                       <Route index element={<BlogPostList />} />
                       <Route path="create" element={<BlogPostCreate />} />
                       <Route path="edit/:id" element={<BlogPostEdit />} />
                       <Route path="show/:id" element={<BlogPostShow />} />
                     </Route>
+
+                    {/* Categories */}
                     <Route path="/categories">
                       <Route index element={<CategoryList />} />
                       <Route path="create" element={<CategoryCreate />} />
                       <Route path="edit/:id" element={<CategoryEdit />} />
                       <Route path="show/:id" element={<CategoryShow />} />
                     </Route>
+
+                    {/* Properties */}
+                    <Route path="/properties">
+                      <Route index element={<AllProperties />} />
+                      <Route path="create" element={<CreateProperty />} />
+                      <Route path="edit/:id" element={<EditProperty />} />
+                      <Route path="show/:id" element={<PropertyDetails />} />
+                    </Route>
+
+                    {/* Agents */}
+                    <Route path="/agents">
+                      <Route index element={<Agents />} />
+                      <Route path="show/:id" element={<AgentProfile />} />
+                    </Route>
+
+                    {/* Messages */}
+                    <Route path="/messages" element={<Home />} />
+                    
+                     <Route path="/reviews" element={<Home />} />
+
+                    {/* My Profile */}
+                    <Route path="/my-profile" element={<MyProfile />} />
+
+                    {/* Fallback */}
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>
+
+                  {/* Public routes */}
                   <Route
                     element={
                       <Authenticated
