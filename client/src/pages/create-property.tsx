@@ -1,11 +1,40 @@
-import React from 'react'
+import { useState } from "react";
+import { useGetIdentity } from "@refinedev/core";
+import { useForm } from "@refinedev/react-hook-form";
+
+import type { FieldValues } from "react-hook-form";
+import { useNavigate } from "react-router";
+import Form from "../components/common/Form";
 
 const CreateProperty = () => {
+  const navigate = useNavigate();
+  const {data:user} = useGetIdentity();
+  const[propertyImage,setPropertyImage] = useState({
+    name:"",
+    url:""
+  })
+  const {refineCore:{onFinish,formLoading}, register, handleSubmit} = useForm();
+  const handleImageChange =()=>{
+
+  }
+    const onFinishHandler =()=>{
+    
+  }
   return (
-    <div>
-        create property
-      
-    </div>
+
+    <Form 
+    type="Create"
+    register={register}
+    onFinish ={onFinish}
+    formLoading = {formLoading}
+    handleSubmit  ={handleSubmit}
+    handleImageChange= {handleImageChange}
+    onFinishHandler ={onFinishHandler}
+    propertyImage = { propertyImage }
+    />
+
+  
+
   )
 }
 

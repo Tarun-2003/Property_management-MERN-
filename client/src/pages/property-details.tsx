@@ -1,12 +1,11 @@
 import React from 'react'
 
+
 const PropertyDetails = () => {
-  return (
-    <div>
-        propertyDetails
-      
-    </div>
-  )
+  return <div>
+    property details
+  </div>
 }
+
 
 export default PropertyDetails
