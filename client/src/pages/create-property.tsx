@@ -32,6 +32,10 @@ const CreateProperty = () => {
 
   const onFinishHandler = async (data: FieldValues) => {
     if (!propertyImage.name) return alert("Please select an image");
+      if (!user) {
+    alert("User not found, please log in again");
+    return;
+  }
 
     await onFinish({
       ...data,

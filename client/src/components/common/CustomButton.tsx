@@ -14,8 +14,8 @@ const CustomButton = ({
 }: CustomButtonProps) => {
   return (
     <Button
-    
-      disabled={disabled}
+     
+      // disabled={disabled}
       type={type === "submit" ? "submit" : "button"}
       sx={{
         flex: fullWidth ? 1 : "unset",

@@ -172,7 +172,7 @@ function App() {
           <RefineSnackbarProvider>
             <DevtoolsProvider>
               <Refine
-                dataProvider={dataProvider("https://localhost:8080/api/v1")}
+                dataProvider={dataProvider("http://localhost:8080/api/v1")}
                 notificationProvider={useNotificationProvider}
                 routerProvider={routerBindings}
                 authProvider={authProvider}
