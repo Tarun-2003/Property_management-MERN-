@@ -18,7 +18,7 @@ const Form = ({
   handleSubmit,
   handleImageChange,
   formLoading,
-  onFinishHandler,
+  onFinish,
   propertyImage,
 }: FormProps) => {
   return (
@@ -36,7 +36,7 @@ const Form = ({
             flexDirection: "column",
             gap: "20px",
           }}
-          onSubmit={handleSubmit(onFinishHandler)}
+          onSubmit={handleSubmit(onFinish)}
         >
           <FormControl>
             <FormHelperText
