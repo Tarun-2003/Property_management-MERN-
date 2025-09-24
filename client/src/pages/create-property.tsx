@@ -4,11 +4,11 @@ import { useForm } from "@refinedev/react-hook-form";
 import type { FieldValues } from "react-hook-form";
 
 import Form from "../components/common/Form";
+import type { IUser } from "../interfaces/common";
 
 const CreateProperty = () => {
-  const { data: user } = useGetIdentity({
-    v3LegacyAuthProviderCompatible: true,
-  });
+  const { data: user } = useGetIdentity<IUser>();
+
   const [propertyImage, setPropertyImage] = useState({ name: "", url: "" });
 
   const {
@@ -31,18 +31,25 @@ const CreateProperty = () => {
   };
 
   const onFinishHandler = async (data: FieldValues) => {
+    console.log("🔍 user from useGetIdentity:", user);
+
     if (!propertyImage.name) return alert("Please select an image");
 
-    if (!user || !user.email) {
+    if (!user || !user._id) {
       alert("User not found, please log in again");
       return;
     }
 
-    await onFinish({
+    const payload = {
       ...data,
       photo: propertyImage.url,
-      email: user.email, // ✅ now safe
-    });
+      email: user.email,
+      creator: user._id, // ✅ pass MongoDB user id
+    };
+
+    console.log("Submitting property:", payload);
+
+    await onFinish(payload);
   };
 
   return (

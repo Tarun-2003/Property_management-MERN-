@@ -37,3 +37,9 @@ export interface FormProps {
    onFinish: (data: any) => void; 
     propertyImage: { name: string, url: string },
 }
+export interface IUser {
+  _id: string;
+  name: string;
+  email: string;
+  avatar: string;
+}

@@ -13,15 +13,18 @@ import {
 } from "@refinedev/mui";
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
+
+// ✅ Use the v6 router bindings here
 import routerBindings, {
   CatchAllNavigate,
   DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router";
+} from "@refinedev/react-router-v6";
+
 import dataProvider from "@refinedev/simple-rest";
 import axios from "axios";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { CredentialResponse } from "./interfaces/google";
@@ -71,35 +74,31 @@ function App() {
   const authProvider: AuthBindings = {
     login: async ({ credential }: CredentialResponse) => {
       const profileObj = credential ? parseJwt(credential) : null;
-//save user to mongodb
-      if (profileObj){
-        const response = await fetch("http://localhost:8080/api/v1/users" ,  {
-          method:"POST",
-          headers:{'Content-Type':"application/json"},
-          body:JSON.stringify({
-            name:profileObj.name,
-          email:profileObj.email,
-        avatar: profileObj.picture 
-              
-       })
 
-        })
-        const data = await response.json();
-        if (response.status==200 ){
-                localStorage.setItem(
-          "user",
-          JSON.stringify({
-            ...profileObj,
+      if (profileObj) {
+        const response = await fetch("http://localhost:8080/api/v1/users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: profileObj.name,
+            email: profileObj.email,
             avatar: profileObj.picture,
-            userid: data._id
-          })
-        );
-      }else{
-        return Promise.reject()
-      }
-    
+          }),
+        });
 
-
+        const data = await response.json();
+        if (response.status == 200) {
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              ...profileObj,
+              avatar: profileObj.picture,
+              _id: data._id,
+            })
+          );
+        } else {
+          return Promise.reject();
+        }
 
         localStorage.setItem("token", `${credential}`);
 
@@ -174,7 +173,7 @@ function App() {
               <Refine
                 dataProvider={dataProvider("http://localhost:8080/api/v1")}
                 notificationProvider={useNotificationProvider}
-                routerProvider={routerBindings}
+                routerProvider={routerBindings}   // ✅ now correct
                 authProvider={authProvider}
                 DashboardPage={Home}
                 resources={[
@@ -208,8 +207,6 @@ function App() {
                     list: MyProfile,
                     icon: <AccountCircleOutlined />,
                   },
-                  
-        
                 ]}
                 options={{
                   syncWithLocation: true,
@@ -266,8 +263,8 @@ function App() {
 
                     {/* Messages */}
                     <Route path="/messages" element={<Home />} />
-                    
-                     <Route path="/reviews" element={<Home />} />
+
+                    <Route path="/reviews" element={<Home />} />
 
                     {/* My Profile */}
                     <Route path="/my-profile" element={<MyProfile />} />
