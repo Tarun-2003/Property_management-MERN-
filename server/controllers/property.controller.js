@@ -33,7 +33,7 @@ const getAllProperties = async (req, res) => {
   }
 
   try {
-    const count = await Property.countDocuments(query);
+    const count = await Property.countDocuments({query});
 
     let mongoQuery = Property.find(query);
 
@@ -167,54 +167,93 @@ const createProperty = async (req, res) => {
 };
 
 // ==================== UPDATE PROPERTY ====================
+// const updateProperty = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { title, description, propertyType, location, price, photo } = req.body;
+
+//     const photoUrl = await cloudinary.uploader.upload(photo);
+
+//     await Property.findByIdAndUpdate(
+//       { _id: id },
+//       {
+//         title,
+//         description,
+//         propertyType,
+//         location,
+//         price,
+//         photo: photoUrl.url || photo,
+//       }
+//     );
+
+//     res.status(200).json({ message: "Property updated successfully" });
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
 const updateProperty = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, propertyType, location, price, photo } = req.body;
 
-    const photoUrl = await cloudinary.uploader.upload(photo);
+    let updatedPhoto = photo;
+
+    // ✅ Only upload if it's a new base64 image (starts with "data:image")
+    if (photo && photo.startsWith("data:image")) {
+      const photoUrl = await cloudinary.uploader.upload(photo);
+      updatedPhoto = photoUrl.url;
+    }
 
     await Property.findByIdAndUpdate(
-      { _id: id },
+      id,
       {
         title,
         description,
         propertyType,
         location,
         price,
-        photo: photoUrl.url || photo,
-      }
+        photo: updatedPhoto,
+      },
+      { new: true } // return the updated doc
     );
 
     res.status(200).json({ message: "Property updated successfully" });
   } catch (error) {
+    console.error("❌ Error updating property:", error.message);
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // ==================== DELETE PROPERTY ====================
 const deleteProperty = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const propertyToDelete = await Property.findById({ _id: id }).populate("creator");
+    const propertyToDelete = await Property.findById(id).populate("creator");
 
     if (!propertyToDelete) throw new Error("Property not found");
 
     const session = await mongoose.startSession();
     session.startTransaction();
 
-    propertyToDelete.remove({ session });
-    propertyToDelete.creator.allProperties.pull(propertyToDelete);
+    // ✅ delete property document
+    await propertyToDelete.deleteOne({ session });
 
+    // ✅ remove from creator’s property list
+    propertyToDelete.creator.allProperties.pull(propertyToDelete._id);
     await propertyToDelete.creator.save({ session });
+
     await session.commitTransaction();
 
     res.status(200).json({ message: "Property deleted successfully" });
   } catch (error) {
+    console.error("❌ Error deleting property:", error.message);
     res.status(500).json({ message: error.message });
   }
 };
+
 
 export {
   getAllProperties,

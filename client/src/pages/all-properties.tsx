@@ -40,7 +40,7 @@ const AllProperties = () => {
   const currentFilterValues = useMemo(() => {
     const logicalFilters = filters.flatMap((item) =>
       "field" in item ? item : [],
-    );
+    ); 
 
     return {
       title: logicalFilters.find((item) => item.field === "title")?.value || "",

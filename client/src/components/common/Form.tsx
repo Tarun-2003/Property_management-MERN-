@@ -109,7 +109,7 @@ const Form = ({
                     "aria-label": "Without label",
                   },
                 }}
-                defaultValue="apartment"
+                
                 {...register("propertyType", {
                   required: true,
                 })}
