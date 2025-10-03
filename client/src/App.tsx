@@ -201,12 +201,12 @@ function App() {
                     list: Home,
                     icon: <ChatBubbleOutline />,
                   },
-                  {
-                    name: "my-profile",
-                    options: { label: "My Profile" },
-                    list: MyProfile,
-                    icon: <AccountCircleOutlined />,
-                  },
+                  // {
+                  //   name: "my-profile",
+                  //   options: { label: "My Profile" },
+                  //   list: MyProfile,
+                  //   icon: <AccountCircleOutlined />,
+                  // },
                 ]}
                 options={{
                   syncWithLocation: true,
@@ -267,7 +267,7 @@ function App() {
                     <Route path="/reviews" element={<Home />} />
 
                     {/* My Profile */}
-                    <Route path="/my-profile" element={<MyProfile />} />
+                    {/* <Route path="/my-profile" element={<MyProfile />} /> */}
 
                     {/* Fallback */}
                     <Route path="*" element={<ErrorComponent />} />
