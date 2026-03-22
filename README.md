@@ -59,8 +59,9 @@ npm install
 cd ../client
 npm install
 
+.env
 PORT=5000
-MONGO_URI=your_mongodb_connection_string'
+MONGO_URI=your_mongodb_connection_string
 
 cd server
 npm run dev
